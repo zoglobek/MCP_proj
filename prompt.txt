@@ -1,0 +1,90 @@
+✅ Final Optimized Prompt for a Secure, Sandbox‑Only Network MCP
+Project: Master Control Program (MCP) for Local Sandbox Network Management
+Build a Master Control Program (MCP) that automatically discovers, maps, and manages servers inside a local, isolated, sandboxed network.
+This system must never scan external networks and must operate only within a predefined, user‑configured IP range.
+
+🔒 Security & Scope Requirements
+- The MCP must operate only inside a sandbox or isolated lab network.
+- The MCP must not scan external networks, public IPs, or unknown ranges.
+- All scanning ranges must be explicitly configured by the user.
+- The web interface must be accessible only from the local machine or LAN, not exposed publicly.
+- No remote data transmission, telemetry, or cloud communication is allowed.
+
+🔍 1. Network Scanning & Discovery
+Implement a scanning module that uses nmap (or a similar local tool) to:
+- Discover active hosts within the allowed IP range
+- Identify open ports
+- Detect running services
+- Attempt OS fingerprinting
+- Attempt service version detection
+The scanner must:
+- Use safe, local‑only scan settings
+- Handle incomplete or inconsistent scan results
+- Output results in a structured format (JSON or similar)
+
+🗄️ 2. Local Database Layer
+After each scan, update a local database (SQLite recommended for simplicity).
+The database must store:
+- Server IP / hostname
+- Detected OS (if available)
+- Open ports
+- Services per port
+- Service versions
+- Last scan timestamp
+- Optional user‑editable notes
+The database must support:
+- Automatic updates from new scans
+- Manual edits through the UI
+- Conflict‑safe merging of new and existing data
+
+🌐 3. Local Web Dashboard (served via Nginx)
+Create a local‑only dashboard that displays the database contents.
+Main Table
+- List all discovered servers
+- Expandable rows showing ports, services, and versions
+- Editable fields for notes or labels
+- Filtering and sorting options
+Sidebar Menu
+- Automatically generate a sidebar based on unique service names
+- Each service becomes a button
+- Clicking a button filters the main table to show only servers running that service
+The UI must remain responsive even with many entries.
+
+🧪 4. Service Probing Module
+For each detected service, implement optional probing logic to gather additional metadata, such as:
+- HTTP headers
+- SSH banner
+- SQL handshake version
+- SMB info
+- RDP negotiation info
+All probes must:
+- Operate only on hosts discovered in the sandbox
+- Respect timeouts
+- Fail gracefully
+- Update the database with new metadata
+
+🔄 5. Automation & Scheduling
+The MCP must support scheduled rescans.
+After each scan:
+- Update the database
+- Refresh the UI
+- Regenerate the sidebar menu
+- Merge new data with existing entries
+
+🎯 Goal
+Create a self‑contained, local‑only network management dashboard that:
+- Maps the sandbox network
+- Identifies servers and services
+- Displays everything in a clean Nginx‑hosted UI
+- Allows manual editing
+- Automatically categorizes services
+- Continuously probes and updates service/OS information
+- Never interacts with external networks or cloud services
+
+If you want, I can help you refine this even further into:
+- A full architecture blueprint
+- A module‑by‑module implementation plan
+- A database schema
+- A threat model
+- A step‑by‑step build roadmap
+Just tell me which direction you want to go next.
