@@ -1,0 +1,57 @@
+{
+  "scanner": {
+    "enabled_ip_ranges": [
+      "10.0.0.0/8",
+      "172.16.0.0/12",
+      "192.168.0.0/16"
+    ],
+    "scan_frequency_min_hours": 12,
+    "max_parallel_zones": 8,
+    "timeout_per_scan_seconds": 300,
+    "nmap_arguments": "-sV -O --script vuln",
+    "safe_mode": true
+  },
+  "database": {
+    "db_path": "./data/mcp.db",
+    "backup_dir": "./data/backups",
+    "auto_backup_enabled": true,
+    "backup_retention_days": 3,
+    "max_db_connections": 10
+  },
+  "api": {
+    "host": "0.0.0.0",
+    "port": 5000,
+    "debug": false,
+    "workers": 4,
+    "timeout_seconds": 30
+  },
+  "auth": {
+    "pam_enabled": true,
+    "password_min_length": 12,
+    "password_require_upper": true,
+    "password_require_lower": true,
+    "password_require_digits": true,
+    "password_require_special": true,
+    "session_timeout_minutes": 30,
+    "max_login_attempts": 5,
+    "lockout_duration_minutes": 15
+  },
+  "ssh_gateway": {
+    "enabled": true,
+    "idle_timeout_minutes": 30,
+    "max_concurrent_sessions": 50,
+    "auth_required": true
+  },
+  "alerting": {
+    "enabled": true,
+    "alert_types": [
+      "server_offline",
+      "new_service",
+      "cve_discovered",
+      "port_opened"
+    ],
+    "email_enabled": false,
+    "webhook_enabled": false,
+    "slack_enabled": false
+  }
+}
