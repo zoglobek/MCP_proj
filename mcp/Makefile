@@ -27,14 +27,18 @@ help:
 	@echo ""
 
 install:
-	pip install --no-cache-dir -r requirements.txt
-	@echo "✓ Dependencies installed"
+	if [ ! -d "../venv" ]; then \
+		python3 -m venv ../venv; \
+	fi
+	../venv/bin/pip install --upgrade pip setuptools wheel
+	../venv/bin/pip install --no-cache-dir -r requirements.txt
+	@echo "✓ Dependencies installed in ../venv"
 
 dev:
-	export MCP_DEBUG=true && python main.py
+	export MCP_DEBUG=true && ../venv/bin/python main.py
 
 run:
-	python main.py
+	../venv/bin/python main.py
 
 stop:
 	@kill $$(lsof -t -i :5000) 2>/dev/null || true
@@ -53,7 +57,7 @@ reset: clean
 	@echo "✓ Reset complete - recreated directories"
 
 test:
-	pytest tests/ -v --cov=. --cov-report=html
+	../venv/bin/python -m pytest tests/ -v --cov=. --cov-report=html
 	@echo "✓ Tests complete - see htmlcov/index.html for coverage report"
 
 lint:

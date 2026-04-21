@@ -1,3 +1,6 @@
+# Root requirements file - actual dependencies are in mcp/requirements.txt
+# This file is kept for reference and includes common development tools
+
 # Web Framework & API
 Flask==3.0.0
 Flask-CORS==4.0.0
