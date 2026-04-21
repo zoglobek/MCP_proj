@@ -298,6 +298,26 @@ def handle_rescan_conflict(
         if new_data.get("confidence", 0) > existing_data.get("confidence", 0):
             return new_data
         return existing_data
+
+
+def merge_scan_results(session: Session, host_data: Dict[str, Any], scan_job: ScanJob) -> None:
+    """
+    Standalone function to merge scan results for a single host.
+
+    This is the function called by the scanner orchestrator.
+
+    Args:
+        session: Database session
+        host_data: Parsed host data from nmap scan
+        scan_job: ScanJob instance for this scan
+    """
+    merger = RescanMergeStrategy(session)
+
+    # Convert host_data to the format expected by the class method
+    scan_results = {"hosts": [host_data]}
+
+    # Call the class method
+    merger.merge_scan_results(scan_job.id, scan_results)
     
     else:
         # Default: use new data
